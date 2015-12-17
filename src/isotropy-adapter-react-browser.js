@@ -29,8 +29,8 @@ export type RenderRelayContainerArgsType = {
 const render = function(params: RenderArgsType) : void {
     const { component, args, context } = params;
     const options = params.options || { elementSelector: "#isotropy-container" };
-    const reactElement = React.createElement(component, args);
     const domNode = document.querySelector(options.elementSelector);
+    const reactElement = React.createElement(component, args);
     ReactDOM.render(reactElement, domNode);
 };
 
