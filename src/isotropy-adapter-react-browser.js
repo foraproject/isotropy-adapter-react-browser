@@ -1,7 +1,6 @@
 /* @flow */
 import React from "react";
 import ReactDOM from "react-dom";
-import ReactDOMServer from "react-dom/server";
 import Relay from 'react-relay';
 
 import type { KoaContextType } from "./flow/koa-types";

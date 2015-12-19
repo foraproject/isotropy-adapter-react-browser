@@ -1,6 +1,3 @@
-declare module "react-dom" {}
-
-declare module "react-dom/server" {
-    declare function renderToString(elem: Object) : string;
-    declare function renderToStaticMarkup(elem: Object) : string;
+declare module "react-dom" {
+    declare function render(elem: Object, node: HTMLElement) : string;
 }
