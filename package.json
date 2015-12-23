@@ -1,7 +1,7 @@
 {
     "author": "Jeswin Kumar <jeswinpk@agilehead.com>",
     "name": "isotropy-adapter-react-browser",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "React browser-adapter for Isotropy.",
     "repository": {
         "type": "git",
@@ -16,7 +16,8 @@
     "dependencies": {
         "react": "*",
         "react-dom": "*",
-        "react-relay": "*"
+        "react-relay": "*",
+	"isomorphic-fetch": "*"
     },
     "devDependencies": {
         "express": "*",
