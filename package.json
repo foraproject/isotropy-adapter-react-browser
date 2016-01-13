@@ -17,6 +17,7 @@
         "react": "*",
         "react-dom": "*",
         "react-relay": "*",
+        "isomorphic-relay": "*",
         "isomorphic-fetch": "*"
     },
     "devDependencies": {

@@ -1,18 +1,13 @@
-import React from 'react';
-import Relay from 'react-relay';
-import MyComponent from "./my-component";
+import React from "react";
 
-const relayComponent = Relay.createContainer(
-    MyComponent,
-    {
-        fragments: {
-            ship: () => Relay.QL`
-                fragment on Ship {
-                    name
-                }
-            `,
-        }
+class MyComponent extends React.Component {
+    componentDidMount() {
+        window.onDataLoad();
     }
-);
 
-export default relayComponent;
+    render() {
+        return <div>Hello {this.props.ship ? this.props.ship.name : this.props.name}</div>;
+    }
+}
+
+export default MyComponent;

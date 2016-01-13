@@ -1,4 +1,5 @@
 import __polyfill from "babel-polyfill";
+import setupJSDOM from "./__jsdom_setup";
 import React from "react";
 import should from 'should';
 import jsdom from 'jsdom';
@@ -6,7 +7,7 @@ import fetch from "isomorphic-fetch";
 import adapter from "../isotropy-adapter-react-browser";
 import schema from "./my-schema";
 import MyComponent from "./my-component";
-import MyRelayComponent from "./my-relay-component";
+import MyRelayContainer from "./my-relay-container";
 import MyRelayRoute from "./my-relay-route";
 
 //For now the GraphQL server is going to run as a separate process.
@@ -17,15 +18,6 @@ import graphQLHTTP from 'express-graphql';
 // or you get "self is not defined"
 // https://github.com/denvned/isomorphic-relay/commit/5a7b673250bd338f3333d00075336ffcc73be806
 import Relay from "react-relay";
-
-
-const setupJSDOM = function() {
-    const document = jsdom.jsdom('<!doctype html><html><body><div id="isotropy-container"></div></body></html>');
-    global.document = document;
-    global.window = document.defaultView;
-    global.window.fetch = fetch;
-    global.fetch = fetch;
-};
 
 
 describe("Isotropy browser adapter for React (incomplete tests)", () => {
@@ -39,7 +31,7 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
 
 
     it(`Should serve a React UI`, () => {
-        setupJSDOM();
+        //setupJSDOM();
         const component = MyComponent;
         const context = {};
         const options = {
@@ -51,6 +43,31 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
             context,
             options
         });
-        document.querySelector("body").innerHTML.should.containEql(`Jeswin`)
+        document.querySelector("body").innerHTML.should.containEql(`Jeswin`);
+    });
+
+    it(`Should serve a Relay Component`, () => {
+        //setupJSDOM();
+        const relayContainer = MyRelayContainer;
+        const context = {};
+        const options = {
+            elementSelector: "#isotropy-container"
+        };
+
+        return new Promise((resolve, reject) => {
+            const graphqlUrl = `http://localhost:8080/graphql`;
+            window.onDataLoad = () => {
+                document.querySelector("body").innerHTML.should.containEql("ENTERPRISE");
+                resolve();
+            };
+            adapter.renderRelayContainer({
+                relayContainer,
+                relayRoute: MyRelayRoute,
+                args: { id: "200" },
+                context,
+                graphqlUrl,
+                options
+            });
+        });
     });
 });
