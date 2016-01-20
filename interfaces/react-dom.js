@@ -1,3 +1,3 @@
 declare module "react-dom" {
-    declare function render(elem: Object, node: HTMLElement) : string;
+  declare function render(elem: Object, node: HTMLElement) : string;
 }

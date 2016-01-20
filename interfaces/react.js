@@ -1,3 +1,3 @@
 declare module "react" {
-    declare function createElement (elem: Object) : Object;
+  declare function createElement (elem: Object) : Object;
 }

@@ -1,17 +1,17 @@
 /* @flow */
 export type KoaType = {
-    middleware: Array<KoaMiddlewareType>
+  middleware: Array<KoaMiddlewareType>
 }
 
 export type KoaNextType = () => Promise
 
 export type KoaContextType = {
-    code: number;
-    redirect: (url: string) => void;
-    method: string;
-    path: string;
-    status: number;
-    body: string;
+  code: number;
+  redirect: (url: string) => void;
+  method: string;
+  path: string;
+  status: number;
+  body: string;
 }
 
 export type KoaMiddlewareType = (context: KoaContextType, next: KoaNextType) => Promise
