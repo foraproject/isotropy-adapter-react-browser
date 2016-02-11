@@ -1,8 +1,8 @@
 /* @flow */
 import React from "react";
 import ReactDOM from "react-dom";
-import Relay from 'react-relay';
 import IsomorphicRelay from 'isomorphic-relay';
+import Relay from 'react-relay';
 
 export type ReactAdapterOptionsType = {
   elementSelector: string,
