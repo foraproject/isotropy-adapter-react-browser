@@ -1,6 +1,7 @@
 import __polyfill from "babel-polyfill";
 import setupJSDOM from "./__jsdom_setup";
 import React from "react";
+import ReactDOM from "react-dom";
 import should from 'should';
 import jsdom from 'jsdom';
 import fetch from "isomorphic-fetch";
@@ -30,8 +31,8 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
   });
 
 
-  it(`Should serve a React UI`, () => {
-    //setupJSDOM();
+  it(`Renders a React UI`, () => {
+    setupJSDOM();
     const component = MyComponent;
     const context = {};
     const options = {
@@ -46,8 +47,28 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
     document.querySelector("body").innerHTML.should.containEql(`Jeswin`);
   });
 
-  it(`Should serve a Relay Component`, () => {
-    //setupJSDOM();
+
+  it(`Calls onRender`, () => {
+    setupJSDOM();
+    const component = MyComponent;
+    const context = {};
+    let onRenderCalled = false;
+    const options = {
+      onRender: function() {
+        onRenderCalled = true;
+      }
+    };
+    adapter.render({
+      component,
+      args: { name: "Jeswin"},
+      context,
+      options
+    });
+    onRenderCalled.should.be.true();
+  });
+
+  it(`Serves a Relay Component`, () => {
+    setupJSDOM();
     const relayContainer = MyRelayContainer;
     const context = {};
     const options = {
@@ -58,6 +79,35 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
       const graphqlUrl = `http://localhost:8080/graphql`;
       window.onDataLoad = () => {
         document.querySelector("body").innerHTML.should.containEql("ENTERPRISE");
+        resolve();
+      };
+      adapter.renderRelayContainer({
+        relayContainer,
+        relayRoute: MyRelayRoute,
+        args: { id: "200" },
+        context,
+        graphqlUrl,
+        options
+      });
+    });
+  });
+
+  it(`Calls onRender for a Relay Component`, () => {
+    setupJSDOM();
+    const relayContainer = MyRelayContainer;
+    const context = {};
+    let onRenderCalled = false;
+    const options = {
+      onRender: function(relayElement) {
+        onRenderCalled = true;
+        const domNode = document.querySelector("#isotropy-container");
+        ReactDOM.render(relayElement, domNode);
+      }
+    };
+    return new Promise((resolve, reject) => {
+      const graphqlUrl = `http://localhost:8080/graphql`;
+      window.onDataLoad = () => {
+        onRenderCalled.should.be.true();
         resolve();
       };
       adapter.renderRelayContainer({
