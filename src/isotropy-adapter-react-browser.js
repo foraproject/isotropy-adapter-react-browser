@@ -23,7 +23,7 @@ export type RenderRelayContainerArgsType = {
   onRender?: Function
 };
 
-const render = function(params: RenderArgsType) : void {
+const render = async function(params: RenderArgsType) : Promise {
   const { component, args, elementSelector, onRender } = params;
   const domNode = document.querySelector(elementSelector);
   const reactElement = React.createElement(component, args);
