@@ -4,16 +4,13 @@ import ReactDOM from "react-dom";
 import IsomorphicRelay from 'isomorphic-relay';
 import Relay from 'react-relay';
 
-export type ReactAdapterOptionsType = {
-  elementSelector: string,
-  dataSelector: string,
-  onRender?: Function
-};
 
 export type RenderArgsType = {
   component: Function,
   args: Object,
-  options: ReactAdapterOptionsType
+  elementSelector: string,
+  dataSelector: string,
+  onRender?: Function
 };
 
 export type RenderRelayContainerArgsType = {
@@ -21,16 +18,17 @@ export type RenderRelayContainerArgsType = {
   relayRoute: Object,
   args: Object,
   graphqlUrl: string,
-  options: ReactAdapterOptionsType
+  elementSelector: string,
+  dataSelector: string,
+  onRender?: Function
 };
 
 const render = function(params: RenderArgsType) : void {
-  const { component, args } = params;
-  const options = Object.assign({}, { elementSelector: "#isotropy-container", dataSelector: "#isotropy-data-container" }, params.options);
-  const domNode = document.querySelector(options.elementSelector);
+  const { component, args, elementSelector, onRender } = params;
+  const domNode = document.querySelector(elementSelector);
   const reactElement = React.createElement(component, args);
-  if (options.onRender) {
-    options.onRender(reactElement);
+  if (onRender) {
+    onRender(reactElement);
   } else {
     ReactDOM.render(reactElement, domNode);
   }
@@ -38,8 +36,7 @@ const render = function(params: RenderArgsType) : void {
 
 
 const renderRelayContainer = async function(params: RenderRelayContainerArgsType) : Promise {
-  const { relayContainer, relayRoute, args, graphqlUrl } = params;
-  const options = Object.assign({}, { elementSelector: "#isotropy-container", dataSelector: "#isotropy-data-container" }, params.options);
+  const { relayContainer, relayRoute, args, graphqlUrl, elementSelector, dataSelector, onRender } = params;
 
   const _relayRoute = Object.assign({}, relayRoute);
   _relayRoute.params = Object.assign({}, relayRoute.params, args);
@@ -53,16 +50,16 @@ const renderRelayContainer = async function(params: RenderRelayContainerArgsType
     Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer(graphqlUrl));
   }
 
-  const dataNode = document.querySelector(options.dataSelector);
+  const dataNode = document.querySelector(dataSelector);
   if (dataNode) {
     const data = JSON.parse(dataNode.textContent);
     IsomorphicRelay.injectPreparedData(data);
   }
   const relayElement = <IsomorphicRelay.RootContainer {...rootContainerProps} />;
-  if (options.onRender) {
-    options.onRender(relayElement);
+  if (onRender) {
+    onRender(relayElement);
   } else {
-    const domNode = document.querySelector(options.elementSelector);
+    const domNode = document.querySelector(elementSelector);
     ReactDOM.render(relayElement, domNode);
   }
 };

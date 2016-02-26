@@ -35,14 +35,12 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
     setupJSDOM();
     const component = MyComponent;
     const context = {};
-    const options = {
-      elementSelector: "#isotropy-container"
-    };
+
     adapter.render({
       component,
       args: { name: "Jeswin"},
       context,
-      options
+      elementSelector: "#isotropy-container"
     });
     document.querySelector("body").innerHTML.should.containEql(`Jeswin`);
   });
@@ -53,16 +51,14 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
     const component = MyComponent;
     const context = {};
     let onRenderCalled = false;
-    const options = {
-      onRender: function() {
-        onRenderCalled = true;
-      }
-    };
+
     adapter.render({
       component,
       args: { name: "Jeswin"},
       context,
-      options
+      onRender: function() {
+        onRenderCalled = true;
+      }
     });
     onRenderCalled.should.be.true();
   });
@@ -71,9 +67,6 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
     setupJSDOM();
     const relayContainer = MyRelayContainer;
     const context = {};
-    const options = {
-      elementSelector: "#isotropy-container"
-    };
 
     return new Promise((resolve, reject) => {
       const graphqlUrl = `http://localhost:8080/graphql`;
@@ -87,7 +80,7 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
         args: { id: "200" },
         context,
         graphqlUrl,
-        options
+        elementSelector: "#isotropy-container"
       });
     });
   });
@@ -97,13 +90,7 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
     const relayContainer = MyRelayContainer;
     const context = {};
     let onRenderCalled = false;
-    const options = {
-      onRender: function(relayElement) {
-        onRenderCalled = true;
-        const domNode = document.querySelector("#isotropy-container");
-        ReactDOM.render(relayElement, domNode);
-      }
-    };
+    
     return new Promise((resolve, reject) => {
       const graphqlUrl = `http://localhost:8080/graphql`;
       window.onDataLoad = () => {
@@ -116,7 +103,11 @@ describe("Isotropy browser adapter for React (incomplete tests)", () => {
         args: { id: "200" },
         context,
         graphqlUrl,
-        options
+        onRender: function(relayElement) {
+          onRenderCalled = true;
+          const domNode = document.querySelector("#isotropy-container");
+          ReactDOM.render(relayElement, domNode);
+        }
       });
     });
   });
