@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import should from 'should';
 import jsdom from 'jsdom';
 import fetch from "isomorphic-fetch";
-import adapter from "../isotropy-adapter-react-browser";
+import adapter from "../isotropy-adapter-react-in-dom";
 import schema from "./my-schema";
 import MyComponent from "./my-component";
 import MyRelayContainer from "./my-relay-container";

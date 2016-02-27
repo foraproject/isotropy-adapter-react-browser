@@ -1,17 +1,17 @@
 {
   "author": "Jeswin Kumar <jeswinpk@agilehead.com>",
-  "name": "isotropy-adapter-react-browser",
+  "name": "isotropy-adapter-react-in-dom",
   "version": "0.5.1",
   "description": "React browser-adapter for Isotropy.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jeswin/isotropy-adapter-react-browser.git"
+    "url": "https://github.com/jeswin/isotropy-adapter-react-in-dom.git"
   },
   "scripts": {
     "update-schema": "node ./dist/scripts/updateSchema.js",
     "test": "mocha dist/test/test.js"
   },
-  "main": "dist/isotropy-adapter-react-browser",
+  "main": "dist/isotropy-adapter-react-in-dom",
   "license": "MIT",
   "dependencies": {
     "react": "*",
