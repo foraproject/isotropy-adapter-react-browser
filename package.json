@@ -5,7 +5,7 @@
   "description": "React browser-adapter for Isotropy.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodejam/isotropy-adapter-react-in-dom.git"
+    "url": "https://github.com/jeswin/isotropy-adapter-react-in-dom.git"
   },
   "scripts": {
     "test": "mocha dist/test/test.js"
